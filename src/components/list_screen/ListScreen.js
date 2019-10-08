@@ -8,7 +8,7 @@ export class ListScreen extends Component {
     getListName() {
         if (this.props.todoList) {
             let name = this.props.todoList.name;
-            return this.props.todoList.name;
+            return name;
         }
         else
             return "";
@@ -16,14 +16,20 @@ export class ListScreen extends Component {
     getListOwner() {
         if (this.props.todoList) {
             let owner = this.props.todoList.owner;
-            return this.props.todoList.owner;
+            return owner;
         }
     }
+
+    setListOwner = (e) => {
+        this.props.setState({owner : e.target.value})
+    }
+    //
+
     render() {
         return (
             <div id="todo_list">
                 <ListHeading goHome={this.props.goHome} />
-                <ListTrash />
+                <ListTrash deleteList = {this.props.deleteList} />
                 <div id="list_details_container">
                     <div id="list_details_name_container" className="text_toolbar">
                         <span id="list_name_prompt">Name:</span>
@@ -37,7 +43,9 @@ export class ListScreen extends Component {
                         <input 
                             value={this.getListOwner()}
                             type="text" 
+                            onChange = {this.setListOwner()}
                             id="list_owner_textfield" />
+                            
                     </div>
                 </div>
                 <ListItemsTable todoList={this.props.todoList} />
