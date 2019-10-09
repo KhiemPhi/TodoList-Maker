@@ -4,13 +4,9 @@ import ListItemsTable from "./ListItemsTable";
 import ListTrash from "./ListTrash";
 import PropTypes from "prop-types";
 import { thisExpression } from "@babel/types";
-import ModalDialog from "./ModalDialog";
 
-export class ListScreen extends Component {
-  constructor(props) {
-    super(props);
-    // this.dialogShow = React.createRef();
-  }
+
+export class ListScreen extends Component { 
 
   getListName() {
     if (this.props.todoList) {
@@ -24,7 +20,6 @@ export class ListScreen extends Component {
       return owner;
     }
   }
-
   showDialog = () => {
     this.refs.dialogShow.classList.add("is_visible");
   };
@@ -84,11 +79,13 @@ export class ListScreen extends Component {
               />
             </div>
           </div>
-          <ListItemsTable todoList={this.props.todoList} />
+          <ListItemsTable todoList={this.props.todoList} loadList = {this.props.loadList}/>
         </div>
       </div>
     );
   }
 }
+
+
 
 export default ListScreen;
