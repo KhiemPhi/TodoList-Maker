@@ -211,7 +211,7 @@ sortItemsByStatus = () => {
           </div>
           
           <ListItemsTable todoList={this.props.todoList} loadList = {this.props.loadList} sortItemsByTask ={this.sortItemsByTask} sortItemsByDueDate={this.sortItemsByDueDate} sortItemsByStatus={this.sortItemsByStatus} goEdit = {this.props.goEdit}
-          goList = {this.props.goList} currentEditItem = {this.props.currentEditItem}/>
+          goList = {this.props.goList} currentEditItem = {this.props.currentEditItem}  newItemAdded = {this.props.newItemAdded}/>
         </div>
       </div>
     );

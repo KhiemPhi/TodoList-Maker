@@ -3,7 +3,19 @@ import PropTypes from "prop-types";
 
 export class ItemScreen extends Component {
    
- 
+  submitChanges=()=>{
+      
+    this.props.currentEditItem.description = document.getElementById("item_description_textfield").value;
+    this.props.currentEditItem.assigned_to = document.getElementById("item_assigned_to_textfield").value;
+    this.props.currentEditItem.due_date = document.getElementById("item_due_date_picker").value;
+    this.props.currentEditItem.completed = document.getElementById("item_completed_checkbox").checked;
+    if (this.props.newItemAdded){
+        
+      this.props.currentList.items.push(this.props.currentEditItem);
+    }
+    this.props.loadList(this.props.currentList);
+    
+  }
 
   render() {
     return (
@@ -16,10 +28,10 @@ export class ItemScreen extends Component {
           <input
             name="description"
             id="item_description_textfield"
-            class="item_input"
+            className="item_input"
             type="input"
             defaultValue = {this.props.currentEditItem.description}
-            onChange = {this.handleInputChange}
+          
           />
           <div id="item_assigned_to_prompt" className="item_prompt">
             Assigned To:
@@ -27,7 +39,7 @@ export class ItemScreen extends Component {
           <input
             name="assignedTo"
             id="item_assigned_to_textfield"
-            class="item_input" 
+            className="item_input" 
             type="input"
             defaultValue = {this.props.currentEditItem.assigned_to}
           />
@@ -40,15 +52,15 @@ export class ItemScreen extends Component {
           </div>
           <input
             id="item_completed_checkbox"
-            class="item_input"
+            className="item_input"
             type="checkbox"
             name = "completed"
             defaultChecked = {this.props.currentEditItem.completed}
           />
           
         </div>
-        <button id="item_form_submit_button" className="item_button">
-            Submit
+        <button id="item_form_submit_button" className="item_button" onClick= {this.submitChanges}>
+            Submit 
           </button>
           <button
             id="item_form_cancel_button"
@@ -62,9 +74,6 @@ export class ItemScreen extends Component {
   }
 }
 
-ItemScreen.propTypes = {
-  currentScreen: PropTypes.string.isRequired,
-  todoItem: PropTypes.object.isRequired
-};
+
 
 export default ItemScreen;

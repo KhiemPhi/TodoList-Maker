@@ -35,6 +35,7 @@ export class ListItemsTable extends Component {
             loadList={this.props.loadList}
             goEdit={this.props.goEdit}
             currentEditItem={this.props.currentEditItem}
+            newItemAdded = {this.props.newItemAdded}
           />
         ))}
         <div
@@ -46,7 +47,7 @@ export class ListItemsTable extends Component {
               due_date: "",
               assigned_to: "",
               completed: false
-            })
+            }, true)
           }
         >
           &#x2b;
