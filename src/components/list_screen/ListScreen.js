@@ -16,8 +16,8 @@ const ItemSortCriteria = {
 
 
 
-export class ListScreen extends Component {   
-
+class ListScreen extends Component {   
+ 
   state = {
     currentItemSortCriteria: null
   };
@@ -26,17 +26,40 @@ export class ListScreen extends Component {
    * This method tests to see if the current sorting criteria is the same as the argument.
    *
    * @param {ItemSortCriteria} testCriteria Criteria to test for.
-   */
+   * 
+   * Arrow function pointing to class, regular function pointing to instance
+   */ 
   
-
   isCurrentItemSortCriteria = (testCriteria) => {
     return this.state.currentItemSortCriteria === testCriteria;
   }
 
-  sortItemsByTask() {    
+  sortItemsByDueDate = () => {
+    // IF WE ARE CURRENTLY INCREASING BY DUE DATE SWITCH TO DECREASING
+    if (this.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_DUE_DATE_INCREASING)) {
+        this.sortTasks(ItemSortCriteria.SORT_BY_DUE_DATE_DECREASING);
+    }
+    // ALL OTHER CASES SORT BY INCREASING
+    else {
+        this.sortTasks(ItemSortCriteria.SORT_BY_DUE_DATE_INCREASING);
+    }
+}
+
+sortItemsByStatus = () => {
+  // IF WE ARE CURRENTLY INCREASING BY STATUS SWITCH TO DECREASING
+  if (this.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_STATUS_INCREASING)) {
+     this.sortTasks(ItemSortCriteria.SORT_BY_STATUS_DECREASING);
+  }
+  // ALL OTHER CASES SORT BY INCREASING
+  else {
+      this.sortTasks(ItemSortCriteria.SORT_BY_STATUS_INCREASING);
+  }
+}
+
+  sortItemsByTask = () => {    
     // IF WE ARE CURRENTLY INCREASING BY TASK SWITCH TO DECREASING
     if (
-      ListScreen.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_TASK_INCREASING)
+      this.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_TASK_INCREASING)
     ) {
       this.sortTasks(ItemSortCriteria.SORT_BY_TASK_DECREASING);
     }
@@ -50,7 +73,7 @@ export class ListScreen extends Component {
    *
    * @param {ItemSortCriteria} sortingCriteria Sorting criteria to use.
    */
-  sortTasks(sortingCriteria) {
+  sortTasks = (sortingCriteria) => {
     this.setState({ currentItemSortCriteria: sortingCriteria });
     this.props.todoList.items.sort(this.compare);
     this.props.loadList(this.props.todoList);
@@ -63,10 +86,10 @@ export class ListScreen extends Component {
    * @param {TodoListItem} item1 First item to compare.
    * @param {TodoListItem} item2 Second item to compare.
    */
-  compare(item1, item2) { 
+  compare = (item1, item2) => { 
     // IF IT'S A DECREASING CRITERIA SWAP THE ITEMS
     if (
-      ListScreen.isCurrentItemSortCriteria(
+      this.isCurrentItemSortCriteria(
         ItemSortCriteria.SORT_BY_TASK_DECREASING
       ) ||
       this.isCurrentItemSortCriteria(
@@ -187,7 +210,7 @@ export class ListScreen extends Component {
             </div>
           </div>
           
-          <ListItemsTable todoList={this.props.todoList} loadList = {this.props.loadList} sortItemsByTask ={this.sortItemsByTask} goEdit = {this.props.goEdit}
+          <ListItemsTable todoList={this.props.todoList} loadList = {this.props.loadList} sortItemsByTask ={this.sortItemsByTask} sortItemsByDueDate={this.sortItemsByDueDate} sortItemsByStatus={this.sortItemsByStatus} goEdit = {this.props.goEdit}
           goList = {this.props.goList}/>
         </div>
       </div>

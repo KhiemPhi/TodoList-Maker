@@ -16,19 +16,17 @@ export class ListItemsTable extends Component {
         <div id="list_item_header" className="list_item_header_card">
           <div
             className="list_item_task_header"
-            onClick= {this.props.sortItemsByTask}//{() => {
-              //this.props.sortItemsByTask();
-            //}}
+            onClick= {this.props.sortItemsByTask}
           >
             Task
           </div>
           <div
             className="list_item_due_date_header"
-            onClick={this.sortByDueDate}
+            onClick={this.props.sortItemsByDueDate}
           >
             Due Date
           </div>
-          <div className="list_item_status_header" onClick={this.sortByStatus}>
+          <div className="list_item_status_header" onClick={this.props.sortItemsByStatus}>
             Status
           </div>
         </div>

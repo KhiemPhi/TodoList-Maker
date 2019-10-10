@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 export class ItemScreen extends Component {
   render() {
     return (
-      <div id = "todo_item" >
+      <form id="todo_item">
         <h3 id="item_heading">Item</h3>
         <div id="item_form_container">
-          <div id="item_description_prompt" className="item_prompt"  >
+          <div id="item_description_prompt" className="item_prompt">
             Description:
           </div>
           <input
+            name="description"
             id="item_description_textfield"
             class="item_input"
             type="input"
@@ -19,14 +20,15 @@ export class ItemScreen extends Component {
             Assigned To:
           </div>
           <input
+            name="assignedTo"
             id="item_assigned_to_textfield"
-            class="item_input"//
+            class="item_input" 
             type="input"
           />
           <div id="item_due_date_prompt" className="item_prompt">
             Due Date:
           </div>
-          <input id="item_due_date_picker" className="item_input" type="date" />
+          <input id="item_due_date_picker" className="item_input" type="date" name = "dueDate" />
           <div id="item_completed_prompt" className="item_prompt">
             Completed:
           </div>
@@ -34,15 +36,21 @@ export class ItemScreen extends Component {
             id="item_completed_checkbox"
             class="item_input"
             type="checkbox"
+            name = "completed"
           />
+          
         </div>
-        <button id="item_form_submit_button" className="item_button" >
-          Submit
-        </button>
-        <button id="item_form_cancel_button" className="item_button" onClick={this.props.goList} >
-          Cancel
-        </button>
-      </div>
+        <button id="item_form_submit_button" className="item_button">
+            Submit
+          </button>
+          <button
+            id="item_form_cancel_button"
+            className="item_button"
+            onClick={this.props.goList}
+          >
+            Cancel
+          </button>
+      </form>
     );
   }
 }
