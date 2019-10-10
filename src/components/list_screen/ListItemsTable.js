@@ -2,21 +2,14 @@ import React, { Component } from "react";
 import ListItemCard from "./ListItemCard";
 import ItemScreen from "../item_screen/ItemScreen";
 
-
 export class ListItemsTable extends Component {
-  
-
-  
-
-  
-
   render() {
     return (
       <div id="list_items_container">
         <div id="list_item_header" className="list_item_header_card">
           <div
             className="list_item_task_header"
-            onClick= {this.props.sortItemsByTask}
+            onClick={this.props.sortItemsByTask}
           >
             Task
           </div>
@@ -26,7 +19,10 @@ export class ListItemsTable extends Component {
           >
             Due Date
           </div>
-          <div className="list_item_status_header" onClick={this.props.sortItemsByStatus}>
+          <div
+            className="list_item_status_header"
+            onClick={this.props.sortItemsByStatus}
+          >
             Status
           </div>
         </div>
@@ -37,11 +33,24 @@ export class ListItemsTable extends Component {
             listItem={todoItem}
             todoList={this.props.todoList}
             loadList={this.props.loadList}
-            goEdit = {this.props.goEdit}
+            goEdit={this.props.goEdit}
+            currentEditItem={this.props.currentEditItem}
           />
         ))}
-        <div className="list_item_add_card" onClick = {this.props.goEdit}>&#x2b;</div>
-        
+        <div
+          className="list_item_add_card"
+          onClick={() =>
+            this.props.goEdit({
+              key: this.props.todoList.length,
+              description: "",
+              due_date: "",
+              assigned_to: "",
+              completed: false
+            })
+          }
+        >
+          &#x2b;
+        </div>
       </div>
     );
   }

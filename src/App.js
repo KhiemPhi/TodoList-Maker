@@ -14,7 +14,8 @@ class App extends Component {
   state = {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists, // All the currentLists
-    currentList: null, // List Currently Being Edited    
+    currentList: null, // List Currently Being Edited  
+    currentEditItem: null, //Item Currently Being Edited  
   }
 
   goHome = () => {
@@ -22,8 +23,9 @@ class App extends Component {
     this.setState({currentList: null});
   }
 
-  goEdit = () => {
-    this.setState({currentScreen: AppScreen.ITEM_SCREEN});
+  goEdit = (listItem) => {
+    this.setState({currentScreen: AppScreen.ITEM_SCREEN});    
+    this.setState({currentEditItem:listItem});
   }
 
   goList = () => {
@@ -86,10 +88,11 @@ class App extends Component {
           setListOwner = {this.setListOwner.bind(this)}
           setListName = {this.setListName.bind(this)}
           goEdit = {this.goEdit.bind(this)}
-          
+          currentEditItem = {this.state.currentEditItem}
           />;
       case AppScreen.ITEM_SCREEN:
-        return <ItemScreen goList = {this.goList.bind(this)}/>;
+        return <ItemScreen goList = {this.goList.bind(this)}
+        currentEditItem = {this.state.currentEditItem}/>;
       default:
         return <div>ERROR</div>;
     }
