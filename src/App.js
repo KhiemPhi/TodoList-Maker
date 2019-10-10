@@ -22,11 +22,20 @@ class App extends Component {
     this.setState({currentList: null});
   }
 
+  goEdit = () => {
+    this.setState({currentScreen: AppScreen.ITEM_SCREEN});
+  }
+
+  goList = () => {
+    this.setState({currentScreen:AppScreen.LIST_SCREEN});
+  }
+
   deleteList = () => {     
-    
+   
     let indexOfList = this.state.todoLists.indexOf(this.state.currentList);
     if (indexOfList >= 0)
       this.state.todoLists.splice(indexOfList, 1);
+    this.goHome();
   
   }
   
@@ -76,9 +85,11 @@ class App extends Component {
           todoList={this.state.currentList}
           setListOwner = {this.setListOwner.bind(this)}
           setListName = {this.setListName.bind(this)}
+          goEdit = {this.goEdit.bind(this)}
+          
           />;
       case AppScreen.ITEM_SCREEN:
-        return <ItemScreen />;
+        return <ItemScreen goList = {this.goList.bind(this)}/>;
       default:
         return <div>ERROR</div>;
     }
