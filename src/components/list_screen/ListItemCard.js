@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 export class ListItemCard extends Component {
 
-  moveItemUp = (e) => {
+  moveItemUp = (e) => { // Implment jsTPS
       e.stopPropagation();
       let itemIndex = this.props.todoList.items.indexOf(this.props.listItem);
       if ((0 < itemIndex) && (itemIndex < this.props.todoList.items.length)) {
@@ -13,7 +13,7 @@ export class ListItemCard extends Component {
       }    
   }
 
-  moveItemDown = (e) => {
+  moveItemDown = (e) => { // Implement jsTPS
     e.stopPropagation();
     let itemIndex = this.props.todoList.items.indexOf(this.props.listItem);
      if ((this.props.todoList.items.length > 1) && (itemIndex < this.props.todoList.items.length-1)) {
@@ -24,7 +24,7 @@ export class ListItemCard extends Component {
     }    
 }
 
-  deleteItem = (e) => {
+  deleteItem = (e) => { // Implement jsTPS
     e.stopPropagation();
     let itemIndex = this.props.todoList.items.indexOf(this.props.listItem);
     this.props.todoList.items.splice(itemIndex, 1);

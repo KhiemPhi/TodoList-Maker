@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import testTodoListData from './TestTodoListData.json'
-import HomeScreen from './components/home_screen/HomeScreen'
-import ItemScreen from './components/item_screen/ItemScreen'
-import ListScreen from './components/list_screen/ListScreen'
+import testTodoListData from './TestTodoListData.json';
+import HomeScreen from './components/home_screen/HomeScreen';
+import ItemScreen from './components/item_screen/ItemScreen';
+import ListScreen from './components/list_screen/ListScreen';
+import jsTPS from './jsTPS';
 
 const AppScreen = {
   HOME_SCREEN: "HOME_SCREEN",
@@ -17,9 +18,15 @@ class App extends Component {
     currentList: null, // List Currently Being Edited  
     currentEditItem: null, //Item Currently Being Edited  
     newItemAdded: null, // whether a new item will be added to the current list
+    listNameChangeTransactionStack : new jsTPS(),
+    listOwnerChangeTransactionStack : new jsTPS(),
+    listItemMoveUpTransactionStack : new jsTPS(),
+    listItemMoveDownTransactionStack: new jsTPS(),
+    listItemRemvoeTransactionStack: new jsTPS(),
+    
   }
 
-  goHome = () => {
+  goHome = () => { // clear all Transaction Stacks
     this.setState({currentScreen: AppScreen.HOME_SCREEN});
     this.setState({currentList: null});
   }
@@ -43,26 +50,26 @@ class App extends Component {
   
   }
   
-  loadList = (todoListToLoad) => {
+  loadList = (todoListToLoad) => {  
     this.setState({currentScreen: AppScreen.LIST_SCREEN});
     this.setState({currentList: todoListToLoad});
     console.log("currentList: " + this.state.currentList);
     console.log("currentScreen: " + this.state.currentScreen);
   }
 
-  setListOwner = (e) => {
+  setListOwner = (e) => { // List Owner Change must implement jsTPS
      let currentList = this.state.currentList;
      currentList.owner = e.target.value;
      this.setState({currentList:currentList});
   }
 
-  setListName = (e) => {
+  setListName = (e) => { // List User Change must implement jsTPS
     let currentList = this.state.currentList;
     currentList.name = e.target.value;
     this.setState({currentList:currentList});
   }
 
-  addNewList () {
+  addNewList () { // Adding New List Item must implement jsTPS
     let newKey = this.state.todoLists.length;    
     let newList = {
       "key": newKey,

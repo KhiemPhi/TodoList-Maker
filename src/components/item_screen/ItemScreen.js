@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 export class ItemScreen extends Component {
    
-  submitChanges=()=>{
+  submitChanges=()=>{ // Must Implement jsTPS share the Transaction Stack with addNewList
       
     this.props.currentEditItem.description = document.getElementById("item_description_textfield").value;
     this.props.currentEditItem.assigned_to = document.getElementById("item_assigned_to_textfield").value;

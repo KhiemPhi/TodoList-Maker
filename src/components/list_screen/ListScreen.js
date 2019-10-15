@@ -14,8 +14,6 @@ const ItemSortCriteria = {
   
 };
 
-
-
 class ListScreen extends Component {   
  
   state = {
@@ -137,13 +135,13 @@ sortItemsByStatus = () => {
     }
   }
 
-  getListName() {
+  getListName = () => {
     if (this.props.todoList) {
       let name = this.props.todoList.name;
       return name;
     } else return "";
   }
-  getListOwner() {
+  getListOwner = () => {
     if (this.props.todoList) {
       let owner = this.props.todoList.owner;
       return owner;
