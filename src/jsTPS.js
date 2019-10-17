@@ -10,6 +10,7 @@
  * @author THE McKilla Gorilla (accept no imposters)
  * @version 2.0
  */
+
 class jsTPS {
 
     constructor (){
@@ -217,4 +218,4 @@ class jsTPS {
         }
         return text;
     }
-}
+} export default jsTPS;

@@ -18,12 +18,9 @@ class App extends Component {
     currentList: null, // List Currently Being Edited  
     currentEditItem: null, //Item Currently Being Edited  
     newItemAdded: null, // whether a new item will be added to the current list
-    listNameChangeTransactionStack : new jsTPS(),
-    listOwnerChangeTransactionStack : new jsTPS(),
-    listItemMoveUpTransactionStack : new jsTPS(),
-    listItemMoveDownTransactionStack: new jsTPS(),
-    listItemRemvoeTransactionStack: new jsTPS(),
-    
+
+    transactionStack : new jsTPS(),
+   
   }
 
   goHome = () => { // clear all Transaction Stacks
