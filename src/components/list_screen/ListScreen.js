@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import ListHeading from "./ListHeading";
 import ListItemsTable from "./ListItemsTable";
 import ListTrash from "./ListTrash";
+import ListNameChangeTransaction from "../../ListNameChangeTransaction";
 import PropTypes from "prop-types";
 import { thisExpression } from "@babel/types";
+
 const ItemSortCriteria = {
   SORT_BY_TASK_INCREASING: "sort_by_task_increasing",
   SORT_BY_TASK_DECREASING: "sort_by_task_decreasing",
@@ -11,50 +13,55 @@ const ItemSortCriteria = {
   SORT_BY_DUE_DATE_DECREASING: "sort_by_due_date_decreasing",
   SORT_BY_STATUS_INCREASING: "sort_by_status_increasing",
   SORT_BY_STATUS_DECREASING: "sort_by_status_decreasing"
-  
 };
 
-class ListScreen extends Component {   
- 
+class ListScreen extends Component {
   state = {
     currentItemSortCriteria: null
+    
   };
 
-   /**
+  /**
    * This method tests to see if the current sorting criteria is the same as the argument.
    *
    * @param {ItemSortCriteria} testCriteria Criteria to test for.
-   * 
+   *
    * Arrow function pointing to class, regular function pointing to instance
-   */ 
-  
-  isCurrentItemSortCriteria = (testCriteria) => {
+   */
+
+  isCurrentItemSortCriteria = testCriteria => {
     return this.state.currentItemSortCriteria === testCriteria;
-  }
+  };
 
   sortItemsByDueDate = () => {
     // IF WE ARE CURRENTLY INCREASING BY DUE DATE SWITCH TO DECREASING
-    if (this.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_DUE_DATE_INCREASING)) {
-        this.sortTasks(ItemSortCriteria.SORT_BY_DUE_DATE_DECREASING);
+    if (
+      this.isCurrentItemSortCriteria(
+        ItemSortCriteria.SORT_BY_DUE_DATE_INCREASING
+      )
+    ) {
+      this.sortTasks(ItemSortCriteria.SORT_BY_DUE_DATE_DECREASING);
     }
     // ALL OTHER CASES SORT BY INCREASING
     else {
-        this.sortTasks(ItemSortCriteria.SORT_BY_DUE_DATE_INCREASING);
+      this.sortTasks(ItemSortCriteria.SORT_BY_DUE_DATE_INCREASING);
     }
-}
+  };
 
-sortItemsByStatus = () => {
-  // IF WE ARE CURRENTLY INCREASING BY STATUS SWITCH TO DECREASING
-  if (this.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_STATUS_INCREASING)) {
-     this.sortTasks(ItemSortCriteria.SORT_BY_STATUS_DECREASING);
-  }
-  // ALL OTHER CASES SORT BY INCREASING
-  else {
+  sortItemsByStatus = () => {
+    // IF WE ARE CURRENTLY INCREASING BY STATUS SWITCH TO DECREASING
+    if (
+      this.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_STATUS_INCREASING)
+    ) {
+      this.sortTasks(ItemSortCriteria.SORT_BY_STATUS_DECREASING);
+    }
+    // ALL OTHER CASES SORT BY INCREASING
+    else {
       this.sortTasks(ItemSortCriteria.SORT_BY_STATUS_INCREASING);
-  }
-}
+    }
+  };
 
-  sortItemsByTask = () => {    
+  sortItemsByTask = () => {
     // IF WE ARE CURRENTLY INCREASING BY TASK SWITCH TO DECREASING
     if (
       this.isCurrentItemSortCriteria(ItemSortCriteria.SORT_BY_TASK_INCREASING)
@@ -65,17 +72,17 @@ sortItemsByStatus = () => {
     else {
       this.sortTasks(ItemSortCriteria.SORT_BY_TASK_INCREASING);
     }
-  }
+  };
   /**
    * This method sorts the todo list items according to the provided sorting criteria.
    *
    * @param {ItemSortCriteria} sortingCriteria Sorting criteria to use.
    */
-  sortTasks = (sortingCriteria) => {
+  sortTasks = sortingCriteria => {
     this.setState({ currentItemSortCriteria: sortingCriteria });
     this.props.todoList.items.sort(this.compare);
     this.props.loadList(this.props.todoList);
-  } 
+  };
 
   /**
    * This method compares two items for the purpose of sorting according to what
@@ -84,7 +91,7 @@ sortItemsByStatus = () => {
    * @param {TodoListItem} item1 First item to compare.
    * @param {TodoListItem} item2 Second item to compare.
    */
-  compare = (item1, item2) => { 
+  compare = (item1, item2) => {
     // IF IT'S A DECREASING CRITERIA SWAP THE ITEMS
     if (
       this.isCurrentItemSortCriteria(
@@ -133,20 +140,20 @@ sortItemsByStatus = () => {
       else if (item1.completed > item2.completed) return 1;
       else return 0;
     }
-  }
+  };
 
   getListName = () => {
     if (this.props.todoList) {
       let name = this.props.todoList.name;
       return name;
     } else return "";
-  }
+  };
   getListOwner = () => {
     if (this.props.todoList) {
       let owner = this.props.todoList.owner;
       return owner;
     }
-  }
+  };
   showDialog = () => {
     this.refs.dialogShow.classList.add("is_visible");
   };
@@ -155,10 +162,30 @@ sortItemsByStatus = () => {
     this.refs.dialogShow.classList.remove("is_visible");
   };
 
+  unDoAndRedoDetect = (event) => {    
+    if(event.key === 'z' && event.ctrlKey) {
+      console.log("Cltr+z Pressed");
+      this.props.transactionStack.undoTransaction();
+
+    }else if (event.key === 'y' && event.ctrlKey){
+      console.log("Cltr+y Pressed");
+      this.props.transactionStack.doTransaction();
+    }
+
+
+  };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.unDoAndRedoDetect, false);
+  }
+
+  componentWillUnmount() {
+    document.addEventListener("keydown", this.unDoAndRedoDetect, false);
+  }
+
   render() {
-    
     return (
-      <div>
+      <div >
         <div
           className="modal"
           id="modal_yes_no_dialog"
@@ -184,7 +211,7 @@ sortItemsByStatus = () => {
           </div>
         </div>
 
-        <div id="todo_list">
+        <div id="todo_list" >
           <ListHeading goHome={this.props.goHome} />
           <ListTrash showDialog={this.showDialog} />
           <div id="list_details_container">
@@ -193,7 +220,8 @@ sortItemsByStatus = () => {
               <input
                 value={this.getListName()}
                 type="text"
-                onChange={this.props.setListName}
+                onChange={this.props.setListName}    
+                onBlur = {this.props.addListNameChangeTransaction}                      
                 id="list_name_textfield"
               />
             </div>
@@ -202,20 +230,28 @@ sortItemsByStatus = () => {
               <input
                 value={this.getListOwner()}
                 type="text"
-                onChange={this.props.setListOwner}
+                onChange={this.props.setListOwner}   
+                onBlur = {this.props.addListOwnerChangeTransaction}                
                 id="list_owner_textfield"
               />
             </div>
           </div>
-          
-          <ListItemsTable todoList={this.props.todoList} loadList = {this.props.loadList} sortItemsByTask ={this.sortItemsByTask} sortItemsByDueDate={this.sortItemsByDueDate} sortItemsByStatus={this.sortItemsByStatus} goEdit = {this.props.goEdit}
-          goList = {this.props.goList} currentEditItem = {this.props.currentEditItem}  newItemAdded = {this.props.newItemAdded}/>
+
+          <ListItemsTable
+            todoList={this.props.todoList}
+            loadList={this.props.loadList}
+            sortItemsByTask={this.sortItemsByTask}
+            sortItemsByDueDate={this.sortItemsByDueDate}
+            sortItemsByStatus={this.sortItemsByStatus}
+            goEdit={this.props.goEdit}
+            goList={this.props.goList}
+            currentEditItem={this.props.currentEditItem}
+            newItemAdded={this.props.newItemAdded}
+          />
         </div>
       </div>
     );
   }
 }
-
-
 
 export default ListScreen;

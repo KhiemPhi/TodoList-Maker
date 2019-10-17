@@ -10,12 +10,14 @@ export class ListItemsTable extends Component {
           <div
             className="list_item_task_header"
             onClick={this.props.sortItemsByTask}
+           
           >
             Task
           </div>
           <div
             className="list_item_due_date_header"
             onClick={this.props.sortItemsByDueDate}
+            
           >
             Due Date
           </div>

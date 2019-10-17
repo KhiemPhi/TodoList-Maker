@@ -75,6 +75,10 @@ class jsTPS {
         this.doTransaction();        
     }
 
+    getPreviousTransaction = () => {
+        return this.transactions[this.mostRecentTransaction];
+    }
+
     /**
      * This function executes the transaction at the location of the counter,
      * then moving the TPS counter. Note that this may be the transaction
