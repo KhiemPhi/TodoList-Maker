@@ -56,10 +56,10 @@ class App extends Component {
     this.setState({currentScreen: AppScreen.LIST_SCREEN});
     this.setState({currentList: todoListToLoad});
     this.setState({defaultName: todoListToLoad.name});
-    this.setState({defaultOwner: todoListToLoad.owner});    
-    console.log("currentList: " + this.state.currentList);
-    console.log("currentScreen: " + this.state.currentScreen);
+    this.setState({defaultOwner: todoListToLoad.owner});      
   }
+
+ 
 
   setListOwner = (e) => { // List Owner Change must implement jsTPS
      let currentList = this.state.currentList;
@@ -146,6 +146,7 @@ class App extends Component {
           transactionStack = {this.state.transactionStack}
           addListNameChangeTransaction = {this.addListNameChangeTransaction.bind(this)}
           addListOwnerChangeTransaction = {this.addListOwnerChangeTransaction.bind(this)}
+          
           />;
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen goList = {this.goList.bind(this)}

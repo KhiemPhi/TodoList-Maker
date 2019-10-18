@@ -1,8 +1,9 @@
 class ListEditItemTransaction {
 
-    constructor(initOldItem, initMakeChangesFunction, initRevertChangesFunction){
+    constructor(initOldItem, initNewItem, initMakeChangesFunction, initRevertChangesFunction){
         
-        this.item = initOldItem;        
+        this.oldItem = initOldItem; 
+        this.newItem = initNewItem;      
         this.makeChangesFunction = initMakeChangesFunction;
         this.revertChangesFunction = initRevertChangesFunction;
     }
@@ -10,12 +11,12 @@ class ListEditItemTransaction {
        
     doTransaction()  {
       
-      this.makeChangesFunction();
+      this.makeChangesFunction(this.newItem);
     }
     
     undoTransaction()  {
        
-       this.revertChangesFunction(this.item);
+       this.revertChangesFunction(this.oldItem);
     
     } 
 } export default ListEditItemTransaction;

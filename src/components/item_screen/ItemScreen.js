@@ -34,19 +34,11 @@ export class ItemScreen extends Component {
     this.props.loadList(this.props.currentList);
   };
 
-  itemMakeChanges = () => {
-    this.props.currentEditItem.description = document.getElementById(
-      "item_description_textfield"
-    ).value;
-    this.props.currentEditItem.assigned_to = document.getElementById(
-      "item_assigned_to_textfield"
-    ).value;
-    this.props.currentEditItem.due_date = document.getElementById(
-      "item_due_date_picker"
-    ).value;
-    this.props.currentEditItem.completed = document.getElementById(
-      "item_completed_checkbox"
-    ).checked;
+  itemMakeChanges = item => {
+    this.props.currentEditItem.description = item.description;
+    this.props.currentEditItem.assigned_to = item.assigned_to;
+    this.props.currentEditItem.due_date = item.due_date;
+    this.props.currentEditItem.completed = item.completed;
     this.props.loadList(this.props.currentList);
   };
 
@@ -61,9 +53,23 @@ export class ItemScreen extends Component {
   submitChanges = () => {
     // Must Implement jsTPS share the Transaction Stack with addNewList
     let oldItem = this.iterationCopy(this.props.currentEditItem);
+    let newItem = this.iterationCopy(this.props.currentEditItem);
+    newItem.description = document.getElementById(
+      "item_description_textfield"
+    ).value;
+    newItem.assigned_to = document.getElementById(
+      "item_assigned_to_textfield"
+    ).value;
+    newItem.due_date = document.getElementById(
+      "item_due_date_picker"
+    ).value;
+    newItem.completed = document.getElementById(
+      "item_completed_checkbox"
+    ).checked;
+    this.props.loadList(this.props.currentList);
     this.props.transactionStack.addTransaction(
       new ListEditItemTransaction(
-        oldItem,
+        oldItem, newItem,
         this.itemMakeChanges,
         this.itemRevertChanges
       )
