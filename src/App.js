@@ -153,6 +153,7 @@ class App extends Component {
         newItemAdded = {this.state.newItemAdded}
         currentList = {this.state.currentList}
         loadList= {this.loadList.bind(this)}
+        transactionStack = {this.state.transactionStack}
        />;
       default:
         return <div>ERROR</div>;

@@ -180,8 +180,8 @@ class ListScreen extends Component {
   }
 
   componentWillUnmount() {
-    document.addEventListener("keydown", this.unDoAndRedoDetect, false);
-  }
+    document.removeEventListener("keydown", this.unDoAndRedoDetect, false);
+   }
 
   render() {
     return (

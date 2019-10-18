@@ -49,7 +49,7 @@ export class ListItemCard extends Component {
     }
   };
 
-  deleteItem = e => {
+  deleteItem(e) {
     // Implement jsTPS
     e.stopPropagation();
     let itemIndex = this.props.todoList.items.indexOf(this.props.listItem);
@@ -117,7 +117,7 @@ export class ListItemCard extends Component {
             {" "}
             &#x21e9;{" "}
           </span>
-          <span className="list_item_card_button" onClick={this.deleteItem}>
+          <span className="list_item_card_button" onClick={e=>{this.deleteItem(e)}}>
             {" "}
             &#10005;{" "}
           </span>
