@@ -247,6 +247,7 @@ class ListScreen extends Component {
             goList={this.props.goList}
             currentEditItem={this.props.currentEditItem}
             newItemAdded={this.props.newItemAdded}
+            transactionStack = {this.props.transactionStack}
           />
         </div>
       </div>

@@ -1,11 +1,11 @@
-class ListMoveUpTransaction {
+class ListMoveDownTransaction {
 
-    constructor(initIndex, initIndexToUp, initIndexUpFunction){
+    constructor(initIndex, initIndexToDown, initIndexDownFunction){
         
-        this.newIndex = initIndexToUp;
+        this.newIndex = initIndexToDown;
         this.oldIndex = initIndex;
         this.currentIndex = initIndex;
-        this.IndexUpFunction = initIndexUpFunction;
+        this.IndexDownFunction = initIndexDownFunction;
     }
     
     setCurrent(newCurrent) {
@@ -14,12 +14,12 @@ class ListMoveUpTransaction {
     
     doTransaction()  {
        this.currentIndex = this.setCurrent(this.newIndex);
-       this.IndexUpFunction(this.oldIndex, this.newIndex);
+       this.IndexDownFunction(this.oldIndex, this.newIndex);
     }
     
     undoTransaction()  {
        this.currentIndex = this.setCurrent(this.oldIndex); 
-       this.IndexUpFunction(this.newIndex, this.oldIndex);
+       this.IndexDownFunction(this.newIndex, this.oldIndex);
     
     } 
-} export default ListMoveUpTransaction;
+} export default ListMoveDownTransaction;

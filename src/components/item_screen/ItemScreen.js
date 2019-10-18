@@ -9,8 +9,7 @@ export class ItemScreen extends Component {
     this.props.currentEditItem.assigned_to = document.getElementById("item_assigned_to_textfield").value;
     this.props.currentEditItem.due_date = document.getElementById("item_due_date_picker").value;
     this.props.currentEditItem.completed = document.getElementById("item_completed_checkbox").checked;
-    if (this.props.newItemAdded){
-        
+    if (this.props.newItemAdded){        
       this.props.currentList.items.push(this.props.currentEditItem);
     }
     this.props.loadList(this.props.currentList);

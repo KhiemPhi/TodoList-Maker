@@ -7,6 +7,7 @@ import jsTPS from './jsTPS';
 import ListNameChangeTransaction from './ListNameChangeTransaction.js';
 import ListOwnerChangeTransaction from './ListOwnerChangeTransaction.js';
 
+
 const AppScreen = {
   HOME_SCREEN: "HOME_SCREEN",
   LIST_SCREEN: "LIST_SCREEN",
@@ -22,7 +23,8 @@ class App extends Component {
     newItemAdded: null, // whether a new item will be added to the current list
     transactionStack : new jsTPS(),
     defaultName : null,
-    defaultOwner: null
+    defaultOwner: null,
+    defaultList: null
   }
 
   goHome = () => { // clear all Transaction Stacks
@@ -54,7 +56,7 @@ class App extends Component {
     this.setState({currentScreen: AppScreen.LIST_SCREEN});
     this.setState({currentList: todoListToLoad});
     this.setState({defaultName: todoListToLoad.name});
-    this.setState({defaultOwner: todoListToLoad.owner});
+    this.setState({defaultOwner: todoListToLoad.owner});    
     console.log("currentList: " + this.state.currentList);
     console.log("currentScreen: " + this.state.currentScreen);
   }

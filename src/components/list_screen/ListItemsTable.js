@@ -38,6 +38,7 @@ export class ListItemsTable extends Component {
             goEdit={this.props.goEdit}
             currentEditItem={this.props.currentEditItem}
             newItemAdded = {this.props.newItemAdded}
+            transactionStack = {this.props.transactionStack}
           />
         ))}
         <div
