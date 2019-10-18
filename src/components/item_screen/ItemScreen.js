@@ -1,34 +1,84 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import ListAddNewItemTransaction from '../../ListAddNewItemTransaction.js';
+import ListAddNewItemTransaction from "../../ListAddNewItemTransaction.js";
+import ListEditItemTransaction from "../../ListEditItemTransaction.js";
 
 export class ItemScreen extends Component {
+  isObject = obj => {
+    var type = typeof obj;
+    return type === "function" || (type === "object" && !!obj);
+  };
 
-  itemDelete = () => {     
+  iterationCopy = src => {
+    let target = {};
+    for (let prop in src) {
+      if (src.hasOwnProperty(prop)) {
+        // if the value is a nested object, recursively copy all it's properties
+        if (this.isObject(src[prop])) {
+          target[prop] = this.iterationCopy(src[prop]);
+        } else {
+          target[prop] = src[prop];
+        }
+      }
+    }
+    return target;
+  };
+
+  itemDelete = () => {
     this.props.currentList.items.pop();
     this.props.loadList(this.props.currentList);
-  }
+  };
 
-  itemAdd = (listItem) => {
+  itemAdd = listItem => {
     this.props.currentList.items.push(listItem);
     this.props.loadList(this.props.currentList);
-  }
-   
-  submitChanges=()=>{ // Must Implement jsTPS share the Transaction Stack with addNewList
-      
-    this.props.currentEditItem.description = document.getElementById("item_description_textfield").value;
-    this.props.currentEditItem.assigned_to = document.getElementById("item_assigned_to_textfield").value;
-    this.props.currentEditItem.due_date = document.getElementById("item_due_date_picker").value;
-    this.props.currentEditItem.completed = document.getElementById("item_completed_checkbox").checked;
-    if (this.props.newItemAdded){ 
-           
-      this.props.transactionStack.addTransaction( new ListAddNewItemTransaction(this.props.currentEditItem, this.itemDelete, this.itemAdd) );
-      
+  };
 
+  itemMakeChanges = () => {
+    this.props.currentEditItem.description = document.getElementById(
+      "item_description_textfield"
+    ).value;
+    this.props.currentEditItem.assigned_to = document.getElementById(
+      "item_assigned_to_textfield"
+    ).value;
+    this.props.currentEditItem.due_date = document.getElementById(
+      "item_due_date_picker"
+    ).value;
+    this.props.currentEditItem.completed = document.getElementById(
+      "item_completed_checkbox"
+    ).checked;
+    this.props.loadList(this.props.currentList);
+  };
+
+  itemRevertChanges = item => {
+    this.props.currentEditItem.description = item.description;
+    this.props.currentEditItem.assigned_to = item.assigned_to;
+    this.props.currentEditItem.due_date = item.due_date;
+    this.props.currentEditItem.completed = item.completed;
+    this.props.loadList(this.props.currentList);
+  };
+
+  submitChanges = () => {
+    // Must Implement jsTPS share the Transaction Stack with addNewList
+    let oldItem = this.iterationCopy(this.props.currentEditItem);
+    this.props.transactionStack.addTransaction(
+      new ListEditItemTransaction(
+        oldItem,
+        this.itemMakeChanges,
+        this.itemRevertChanges
+      )
+    );
+
+    if (this.props.newItemAdded) {
+      this.props.transactionStack.addTransaction(
+        new ListAddNewItemTransaction(
+          this.props.currentEditItem,
+          this.itemDelete,
+          this.itemAdd
+        )
+      );
     }
-    //this.props.loadList(this.props.currentList);
-    
-  }
+  };
 
   render() {
     return (
@@ -43,8 +93,7 @@ export class ItemScreen extends Component {
             id="item_description_textfield"
             className="item_input"
             type="input"
-            defaultValue = {this.props.currentEditItem.description}
-          
+            defaultValue={this.props.currentEditItem.description}
           />
           <div id="item_assigned_to_prompt" className="item_prompt">
             Assigned To:
@@ -52,14 +101,20 @@ export class ItemScreen extends Component {
           <input
             name="assignedTo"
             id="item_assigned_to_textfield"
-            className="item_input" 
+            className="item_input"
             type="input"
-            defaultValue = {this.props.currentEditItem.assigned_to}
+            defaultValue={this.props.currentEditItem.assigned_to}
           />
           <div id="item_due_date_prompt" className="item_prompt">
             Due Date:
           </div>
-          <input id="item_due_date_picker" className="item_input" type="date" name = "dueDate" defaultValue = {this.props.currentEditItem.due_date} />
+          <input
+            id="item_due_date_picker"
+            className="item_input"
+            type="date"
+            name="dueDate"
+            defaultValue={this.props.currentEditItem.due_date}
+          />
           <div id="item_completed_prompt" className="item_prompt">
             Completed:
           </div>
@@ -67,26 +122,27 @@ export class ItemScreen extends Component {
             id="item_completed_checkbox"
             className="item_input"
             type="checkbox"
-            name = "completed"
-            defaultChecked = {this.props.currentEditItem.completed}
+            name="completed"
+            defaultChecked={this.props.currentEditItem.completed}
           />
-          
         </div>
-        <button id="item_form_submit_button" className="item_button" onClick= {this.submitChanges}>
-            Submit 
-          </button>
-          <button
-            id="item_form_cancel_button"
-            className="item_button"
-            onClick={this.props.goList}
-          >
-            Cancel
-          </button>
+        <button
+          id="item_form_submit_button"
+          className="item_button"
+          onClick={this.submitChanges}
+        >
+          Submit
+        </button>
+        <button
+          id="item_form_cancel_button"
+          className="item_button"
+          onClick={this.props.goList}
+        >
+          Cancel
+        </button>
       </form>
     );
   }
 }
-
-
 
 export default ItemScreen;
